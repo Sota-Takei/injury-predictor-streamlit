@@ -356,16 +356,26 @@ if submitted:
             if is_abnormal:
                 st.error(msg)  # 異常は赤
 
-                # ★怪我リスクを下げるためのヒントを表示
+                # ★怪我リスクを下げるためのヒント（黒字＋カード風）
                 st.markdown(
-        """
-<div style="color: #000000; font-size: 1.05rem; font-weight: 500;">
+                    """
+<div style="
+    background-color: #ffffff;
+    color: #000000;
+    padding: 0.8rem 1rem;
+    border-left: 4px solid #dc3545;
+    border-radius: 4px;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+">
+<span style="font-weight: 700;">怪我リスクを下げるためのヒント</span><br>
 過去データでは、ハイペースで上がりが遅い競馬よりも、スローペースで上がりが速い競馬の方が、怪我率が最大で約50％低いグループもあります。<br>
 前半のペースを抑え、終い重視の戦法（スローペースでの逃げ・後方待機など）を検討することで、怪我リスクを相対的に抑えやすくなります。
 </div>
-""",
-        unsafe_allow_html=True,
-    )
+                    """,
+                    unsafe_allow_html=True,
+                )
             else:
                 st.success(msg)  # 完走は緑
 
