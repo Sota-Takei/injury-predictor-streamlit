@@ -353,10 +353,38 @@ if submitted:
             is_abnormal = (p >= threshold)
             msg = f"推定確率: {p*100:.1f}% → 判定: **{'異常(怪我)' if is_abnormal else '完走(非異常)'}**（しきい値 {threshold:.2f}）"
 
+            # 判定メッセージ（赤 or 緑）
             if is_abnormal:
                 st.error(msg)  # 異常は赤
+            else:
+                st.success(msg)  # 完走は緑
 
-                # ★怪我リスクを下げるためのヒント（黒字＋カード風）
+            # ★特徴量重要度に関する説明（カード風に整形）
+            st.markdown(
+                """
+<div style="
+    background-color: #f8f9fa;
+    color: #000000;
+    padding: 0.8rem 1rem;
+    border-left: 4px solid #6c757d;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    margin-top: 0.75rem;
+">
+<span style="font-weight: 700;">このモデルで重要度が高かった主な項目</span><br>
+特徴量重要度の分析では、入力項目のうち、次の順で怪我の有無との関連が相対的に強い（重要度が高い）傾向がみられます。<br>
+<span style="font-weight: 700;">・場所</span><br>
+<span style="font-weight: 700;">・馬場状態</span><br>
+<span style="font-weight: 700;">・年齢限定</span><br>
+<span style="font-weight: 700;">・クラス名</span><br>
+<span style="font-weight: 700;">・前走脚質</span>
+</div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            # ★怪我リスクを下げるためのヒント（これは赤いカード・異常時だけ）
+            if is_abnormal:
                 st.markdown(
                     """
 <div style="
@@ -376,8 +404,6 @@ if submitted:
                     """,
                     unsafe_allow_html=True,
                 )
-            else:
-                st.success(msg)  # 完走は緑
 
             with st.expander("送信データ（確認）", expanded=False):
                 st.dataframe(df_in)
